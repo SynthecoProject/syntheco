@@ -6,6 +6,7 @@
 'census_input_files':
   'profile_data_csv': '/mnt/c/Users/STB60/Programs/Canada_BSTs/Data/2011-2016/Profile/98-401-X2016043_English_CSV_data.csv'
   'pums_h_csv':  '/mnt/c/Users/STB60/Programs/Canada_BSTs/Data/2011-2016/PUMS/pumf-98M0002-E-2016-hierarchical_F1.csv'
-'output_log_file': 'canada.out.txt'
 'output_data_log_file': 'canada_data_out.txt'
+'ipf_fail_on_nonconvergence': true
 'census_fitting_procedure': 'ipf'
+'debug_limit_geo_codes': 10
