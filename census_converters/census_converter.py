@@ -21,18 +21,26 @@ from error import SynthEcoError
 
 # Map dictionary used to translate input commands to the modules needed
 # needed to import
-plugin_map = {'canada': {'module': "census_converters.plugins.canada_census_converters",
-                         'global': "CanadaCensusGlobalPlugin",
-                         'metadata_json': "{}/plugins/canada_pums_info.json".format(Path(__file__).parent),
-                         'pums': "CanadaCensusPUMSPlugin",
-                         'summary': "CanadaCensusSummaryPlugin",
-                         'border': "CanadaCensusBorderPlugin"},
-              'us': {'module': 'census_converters.plugins.us_census_converters',
-                     'global': 'USCensusGlobalPlugin',
-                     'metadata_json': "{}/plugins/us_pums_info.json".format(Path(__file__).parent),
-                     'pums': 'USCensusPUMSPlugin',
-                     'summary': 'USCensusSummaryPlugin',
-                     'border': 'USCensusBorderPlugin'}}
+plugin_map = {
+    "canada": {
+        "module": "census_converters.plugins.canada_census_converters",
+        "global": "CanadaCensusGlobalPlugin",
+        "metadata_json": "{}/plugins/canada_pums_info.json".format(
+            Path(__file__).parent
+        ),
+        "pums": "CanadaCensusPUMSPlugin",
+        "summary": "CanadaCensusSummaryPlugin",
+        "border": "CanadaCensusBorderPlugin",
+    },
+    "us": {
+        "module": "census_converters.plugins.us_census_converters",
+        "global": "USCensusGlobalPlugin",
+        "metadata_json": "{}/plugins/us_pums_info.json".format(Path(__file__).parent),
+        "pums": "USCensusPUMSPlugin",
+        "summary": "USCensusSummaryPlugin",
+        "border": "USCensusBorderPlugin",
+    },
+}
 
 
 def initialize(census_converter="canada", table_type="global"):
@@ -50,24 +58,32 @@ def initialize(census_converter="canada", table_type="global"):
         A pluggy plugin manager that has been registered with the proper
         implementation plugin.
     """
-    log("INFO", "Intitializing Census Converter with {},{} options".format(census_converter,
-                                                                           table_type))
+    log(
+        "INFO",
+        "Intitializing Census Converter with {},{} options".format(
+            census_converter, table_type
+        ),
+    )
     try:
         plug_manager = pluggy.PluginManager("census_converters")
         plug_manager.add_hookspecs(CensusConverterSpec)
 
         if census_converter not in plugin_map.keys():
-            raise SynthEcoError("Trying to initialize a census converter "
-                                "that doesn't have a plugin {}".format(census_converter))
+            raise SynthEcoError(
+                "Trying to initialize a census converter "
+                "that doesn't have a plugin {}".format(census_converter)
+            )
         plug_map_entry = plugin_map[census_converter]
 
         if table_type not in plug_map_entry.keys():
-            raise SynthEcoError("Trying to initialize a census converter "
-                                "with a table type that doesn't have a "
-                                "plugin {}.{}".format(census_converter, table_type))
+            raise SynthEcoError(
+                "Trying to initialize a census converter "
+                "with a table type that doesn't have a "
+                "plugin {}.{}".format(census_converter, table_type)
+            )
 
         log("DEBUG", "Plugin Map: {}".format(plug_map_entry))
-        mod = importlib.import_module(plug_map_entry['module'])
+        mod = importlib.import_module(plug_map_entry["module"])
         plug = getattr(mod, plug_map_entry[table_type])
         plug_manager.register(plug)
         return plug_manager
@@ -82,6 +98,7 @@ class CensusConverter:
     Skeleton class for the plugin framework for conveting census
     data to Syntheco data standards
     """
+
     def __init__(self, input_params, census_converter, table_type, _global_tables=None):
         """
         Constructor
@@ -97,8 +114,9 @@ class CensusConverter:
         self.input_params = input_params
         self.global_tables = _global_tables
         plug_manager = initialize(census_converter, table_type)
-        self.metadata_json = json.load(open(plugin_map[census_converter]['metadata_json'], "r"),
-                                       parse_int=str)
+        self.metadata_json = json.load(
+            open(plugin_map[census_converter]["metadata_json"], "r"), parse_int=str
+        )
         self.hook = plug_manager.hook
         self.raw_data_df = self.read_raw_data_into_pandas()
         self.processed_data_df = pd.DataFrame()
@@ -120,7 +138,7 @@ class CensusConverter:
         return self.hook.transform(cens_conv_inst=self)[0]
 
     def convert(self):
-        '''
+        """
         This method performs the conversion from raw data to
         the final table for core Syntheco use
 
@@ -131,6 +149,6 @@ class CensusConverter:
             type of table that is to be the result. Please refer to
             the concrete converter class for details in the "converters"
             directory
-        '''
+        """
         self.processed_data_df = self.transform()
         return self.processed_data_df

@@ -46,6 +46,7 @@ class CSVFileCache:
     API so that we don't need to rebuild them every time
 
     """
+
     def __init__(self, location_=None):
         """
         Constructor
@@ -92,7 +93,7 @@ class CSVFileCache:
         """
 
         # Check arguements
-        assert (type(csvContents_) == pd.DataFrame)
+        assert type(csvContents_) == pd.DataFrame
         if name_ not in self._fileDict.keys():
             randomname = os.path.join(self._location, f"{uuid.uuid4()}.pkl")
 
@@ -106,7 +107,9 @@ class CSVFileCache:
                 self.remove_file(name_)
                 self.add_file(name_, csvContents_)
             else:
-                raise SynthEcoError("CSVFileCache:add_file: cannot overwrite file with force")
+                raise SynthEcoError(
+                    "CSVFileCache:add_file: cannot overwrite file with force"
+                )
         return True
 
     def remove_file(self, name_):

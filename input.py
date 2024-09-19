@@ -16,6 +16,7 @@ class InputParams:
     This class reads an input file for Syntheco and does all of the validation
     checking.
     """
+
     def __init__(self, input_file="input.yml", input_schema_=input_schema._schema):
         """
         Instance Constructor
@@ -55,7 +56,11 @@ class InputParams:
                 print("error: {}".format(err))
                 raise
         except Exception as err:
-            print("InputParams Error, Unable to read input file {}\n{}".format(self.input_file, err))
+            print(
+                "InputParams Error, Unable to read input file {}\n{}".format(
+                    self.input_file, err
+                )
+            )
 
     def has_keyword(self, kw):
         return kw in self.input_params
@@ -72,5 +77,5 @@ class InputParams:
 For Testing
 """
 if __name__ == "__main__":
-    i = InputParams('canada.yaml')
+    i = InputParams("canada.yaml")
     print(i)

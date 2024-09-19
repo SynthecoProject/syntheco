@@ -8,9 +8,9 @@ import logging
 import os
 
 
-def setup_logger(log_file='syntheco_log.txt',
-                 data_log_file='synthco_data.txt',
-                 log_level='INFO'):
+def setup_logger(
+    log_file="syntheco_log.txt", data_log_file="synthco_data.txt", log_level="INFO"
+):
     """
     setup_logger
     initiallizes the logger
@@ -29,14 +29,14 @@ def setup_logger(log_file='syntheco_log.txt',
     logger.setLevel(log_level)
 
     file_handler = logging.FileHandler(log_file)
-    formatter = logging.Formatter('%(asctime)s: %(levelname)s: %(name)s : %(message)s')
+    formatter = logging.Formatter("%(asctime)s: %(levelname)s: %(name)s : %(message)s")
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 
     data_logger = logging.getLogger("syntheco_data_logger")
     data_logger.setLevel("INFO")
     data_file_handler = logging.FileHandler(data_log_file)
-    data_formatter = logging.Formatter('%(asctime)s: %(message)s')
+    data_formatter = logging.Formatter("%(asctime)s: %(message)s")
     data_file_handler.setFormatter(data_formatter)
     data_logger.addHandler(data_file_handler)
 
@@ -89,7 +89,7 @@ def data_log(msg=None):
     Returns:
        Nothing, output is logged to files
     """
-    logger = logging.getLogger('syntheco_data_logger')
+    logger = logging.getLogger("syntheco_data_logger")
 
     if msg is None:
         logger.error("Logging made without message")

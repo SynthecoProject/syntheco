@@ -16,10 +16,16 @@ from summary_data_tables import SummaryDataTables
 from error import SynthEcoError
 from logger import log, data_log
 
-plugin_map = {'ipf': {'module': 'census_fitting_procedures.plugins.ipf_census_fitting',
-                      'class': 'IPFCensusHouseholdFittingProcedure'},
-              'ipf_sep_p_h': {'module': 'census_fitting_procedures.plugins.ipt_census_with_separate_p_h_file',
-                              'class': 'IPFCensusHouseholdWithSeparatePHFilesProcedure'}}
+plugin_map = {
+    "ipf": {
+        "module": "census_fitting_procedures.plugins.ipf_census_fitting",
+        "class": "IPFCensusHouseholdFittingProcedure",
+    },
+    "ipf_sep_p_h": {
+        "module": "census_fitting_procedures.plugins.ipt_census_with_separate_p_h_file",
+        "class": "IPFCensusHouseholdWithSeparatePHFilesProcedure",
+    },
+}
 
 
 def initialize(fitting_procedure):
@@ -36,23 +42,30 @@ def initialize(fitting_procedure):
         A pluggy plugin manager that has been registered with the proper
         implementation plugin.
     """
-    log("INFO", "Initializing Fitting Procedure with {} options".format(fitting_procedure))
+    log(
+        "INFO",
+        "Initializing Fitting Procedure with {} options".format(fitting_procedure),
+    )
 
     try:
         plug_manager = pluggy.PluginManager("census_fitting_procedures")
         plug_manager.add_hookspecs(CensusFittingProcedureSpec)
         if fitting_procedure not in plugin_map.keys():
-            raise SynthEcoError("Trying to initialize a fitting procedure "
-                                "that doesn't have a plugin {}".format(fitting_procedure))
+            raise SynthEcoError(
+                "Trying to initialize a fitting procedure "
+                "that doesn't have a plugin {}".format(fitting_procedure)
+            )
 
         plug_map_entry = plugin_map[fitting_procedure]
         log("DEBUG", "Census Fitting Procedure Plugin Map: {}".format(plug_map_entry))
-        mod = importlib.import_module(plug_map_entry['module'])
-        plug = getattr(mod, plug_map_entry['class'])
+        mod = importlib.import_module(plug_map_entry["module"])
+        plug = getattr(mod, plug_map_entry["class"])
         plug_manager.register(plug)
         return plug_manager
     except Exception as e:
-        raise SynthEcoError("Census Fitting Procedure Plugin Failed to Intialize: {}".format(e))
+        raise SynthEcoError(
+            "Census Fitting Procedure Plugin Failed to Intialize: {}".format(e)
+        )
 
 
 class CensusFittingProcedure:
@@ -67,21 +80,27 @@ class CensusFittingProcedure:
 
     """
 
-    def __init__(self, input_params,
-                 global_tables=None,
-                 pums_tables=None, summary_tables=None):
+    def __init__(
+        self, input_params, global_tables=None, pums_tables=None, summary_tables=None
+    ):
 
         self.input_params = input_params
-        plug_manager = initialize(self.input_params['census_fitting_procedure'])
+        plug_manager = initialize(self.input_params["census_fitting_procedure"])
         log("DEBUG", "Successfully initalized fitting plugin")
         # Checking tables to make sure they are of the right type and full
 
         if global_tables is None or not isinstance(global_tables, GlobalTables):
-            raise SynthEcoError("Census Fitting Procedure Plugin Global Tables is either empty or of wrong type")
+            raise SynthEcoError(
+                "Census Fitting Procedure Plugin Global Tables is either empty or of wrong type"
+            )
         if pums_tables is None or not isinstance(pums_tables, PUMSDataTables):
-            raise SynthEcoError("Census Fitting Procedure Plugin PUMS Data Tables is either empty or of wrong type")
+            raise SynthEcoError(
+                "Census Fitting Procedure Plugin PUMS Data Tables is either empty or of wrong type"
+            )
         if summary_tables is None or not isinstance(summary_tables, SummaryDataTables):
-            raise SynthEcoError("Census Fitting Procedure Plugin Summary Tables is either empty or of wrong type")
+            raise SynthEcoError(
+                "Census Fitting Procedure Plugin Summary Tables is either empty or of wrong type"
+            )
 
         self.global_tables = global_tables
         self.pums_tables = pums_tables

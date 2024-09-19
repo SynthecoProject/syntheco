@@ -4,7 +4,6 @@ hookimpl
 This module defines the plugin speck default implementation
 """
 
-
 from output_formatters import hookimpl
 
 
@@ -27,4 +26,5 @@ class OutputFormattersSpec:
         """
         output implementation spec
         """
+
     return

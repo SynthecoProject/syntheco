@@ -7,15 +7,13 @@ to be able to perform the Iterative Proportional Fitting procedure and should
 be completely independent from where the data comes
 """
 
-
 import pandas as pd
 
 
 class SummaryDataTables:
-    def __init__(self, summary_variables_=None,
-                 geo_unit_=None,
-                 converter_=None,
-                 data_=None):
+    def __init__(
+        self, summary_variables_=None, geo_unit_=None, converter_=None, data_=None
+    ):
         """
         Creation Operator
         """
@@ -40,6 +38,7 @@ class SummaryDataTables:
         """
         This method returns a nice print out of the GlobalTables
         """
-        return '\n'.join(["Summary Tables",
-                          "------------------------------------------------------"] +
-                         [f"{x.name}\n{x}" for x in self.data.values()])
+        return "\n".join(
+            ["Summary Tables", "------------------------------------------------------"]
+            + [f"{x.name}\n{x}" for x in self.data.values()]
+        )

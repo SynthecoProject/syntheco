@@ -20,8 +20,12 @@ from error import SynthEcoError
 # Map dictionary used to translate input commands to modules need
 # to import
 
-plugin_map = {'csv': {'module': 'output_formatters.plugins.csv_outputter',
-                      'class': 'CSVOutputter'}}
+plugin_map = {
+    "csv": {
+        "module": "output_formatters.plugins.csv_outputter",
+        "class": "CSVOutputter",
+    }
+}
 
 
 def initialize(output_format):
@@ -43,15 +47,17 @@ def initialize(output_format):
         plug_manager.add_hookspecs(OutputFormatterSpec)
 
         if output_format not in plugin_map.keys():
-            raise SynthEcoError("Trying to initialize an output_formatter" +
-                                f"that doesn't have a plugin {output_format}")
+            raise SynthEcoError(
+                "Trying to initialize an output_formatter"
+                + f"that doesn't have a plugin {output_format}"
+            )
 
         plug_map_entry = plugin_map[output_format]
 
         log("DEBUG", f"output_formatter plugin map: {plug_map_entry}")
 
-        mod = importlib.import_module(plug_map_entry['module'])
-        plug = getattr(mod, plug_map_entry['class'])
+        mod = importlib.import_module(plug_map_entry["module"])
+        plug = getattr(mod, plug_map_entry["class"])
         plug_manager.register(plug)
         return plug_manager
     except Exception as e:
@@ -80,14 +86,24 @@ class OutputFormatter:
 
         # Check argument types
         if input_params is None or not isinstance(input_params, InputParams):
-            raise SynthEcoError("Output Formatter Plugin Input Params is either empty or of wrong type")
-        if fitting_result is None or not isinstance(fitting_result, CensusFittingResult):
-            raise SynthEcoError("Output Formatter Plugin Fitting result is either empty or of wrong type")
-        if sampling_result is None or not isinstance(sampling_result, CensusHouseholdSamplingResult):
-            raise SynthEcoError("Output Formatter Plugin Sampling result is either empty or of wrong type")
+            raise SynthEcoError(
+                "Output Formatter Plugin Input Params is either empty or of wrong type"
+            )
+        if fitting_result is None or not isinstance(
+            fitting_result, CensusFittingResult
+        ):
+            raise SynthEcoError(
+                "Output Formatter Plugin Fitting result is either empty or of wrong type"
+            )
+        if sampling_result is None or not isinstance(
+            sampling_result, CensusHouseholdSamplingResult
+        ):
+            raise SynthEcoError(
+                "Output Formatter Plugin Sampling result is either empty or of wrong type"
+            )
 
         self.input_params = input_params
-        plug_manager = initialize(self.input_params['output_format'])
+        plug_manager = initialize(self.input_params["output_format"])
 
         self.fitting_result = fitting_result
         self.sampling_result = sampling_result

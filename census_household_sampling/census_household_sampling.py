@@ -21,8 +21,12 @@ from census_fitting_result import CensusFittingResult
 from logger import log, data_log
 from error import SynthEcoError
 
-plugin_map = {'uniform': {"module": "census_household_sampling.plugins.uniform_household_sampling",
-                          "class": "UniformHouseholdSampling"}}
+plugin_map = {
+    "uniform": {
+        "module": "census_household_sampling.plugins.uniform_household_sampling",
+        "class": "UniformHouseholdSampling",
+    }
+}
 
 
 def initialize(sampling_procedure):
@@ -44,19 +48,23 @@ def initialize(sampling_procedure):
         plug_manager.add_hookspecs(CensusHouseholdSamplingSpec)
 
         if sampling_procedure not in plugin_map.keys():
-            raise SynthEcoError("Trying to initialize a census household sampling"
-                                "that doesn't have a plugin {}".format(sampling_procedure))
+            raise SynthEcoError(
+                "Trying to initialize a census household sampling"
+                "that doesn't have a plugin {}".format(sampling_procedure)
+            )
 
         plug_map_entry = plugin_map[sampling_procedure]
 
         log("DEBUG", "census_household_sampling plugin map: {}".format(plug_map_entry))
 
-        mod = importlib.import_module(plug_map_entry['module'])
-        plug = getattr(mod, plug_map_entry['class'])
+        mod = importlib.import_module(plug_map_entry["module"])
+        plug = getattr(mod, plug_map_entry["class"])
         plug_manager.register(plug)
         return plug_manager
     except Exception as e:
-        raise SynthEcoError("Census Household Sampling Plugin Failed to Initialize: {}".format(e))
+        raise SynthEcoError(
+            "Census Household Sampling Plugin Failed to Initialize: {}".format(e)
+        )
 
 
 class CensusHouseholdSampling:
@@ -66,7 +74,15 @@ class CensusHouseholdSampling:
     Skeleton class for the plugin framework for randomly sampling and placing Households
     within a geographic area
     """
-    def __init__(self, input_params, fitting_result, pums_data_tables, global_tables, border_tables):
+
+    def __init__(
+        self,
+        input_params,
+        fitting_result,
+        pums_data_tables,
+        global_tables,
+        border_tables,
+    ):
         """
         Constructor
 
@@ -82,18 +98,32 @@ class CensusHouseholdSampling:
 
         # Check argument types
         if input_params is None or not isinstance(input_params, InputParams):
-            raise SynthEcoError("Census Household Sampling Plugin Input Params is either empty or of wrong type")
+            raise SynthEcoError(
+                "Census Household Sampling Plugin Input Params is either empty or of wrong type"
+            )
         if global_tables is None or not isinstance(global_tables, GlobalTables):
-            raise SynthEcoError("Census Household Sampling Plugin Global Tables is either empty or of wrong type")
-        if fitting_result is None or not isinstance(fitting_result, CensusFittingResult):
-            raise SynthEcoError("Census Household Sampling Plugin Fitting result is either empty or of wrong type")
+            raise SynthEcoError(
+                "Census Household Sampling Plugin Global Tables is either empty or of wrong type"
+            )
+        if fitting_result is None or not isinstance(
+            fitting_result, CensusFittingResult
+        ):
+            raise SynthEcoError(
+                "Census Household Sampling Plugin Fitting result is either empty or of wrong type"
+            )
         if pums_data_tables is None or not isinstance(pums_data_tables, PUMSDataTables):
-            raise SynthEcoError("Census Household Sampling Plugin PUMS Tables are either empty or of wrong type")
+            raise SynthEcoError(
+                "Census Household Sampling Plugin PUMS Tables are either empty or of wrong type"
+            )
         if border_tables is None or not isinstance(border_tables, BorderTables):
-            raise SynthEcoError("Census Household Sampling Plugin Border Tables are either empty or of wrong type")
+            raise SynthEcoError(
+                "Census Household Sampling Plugin Border Tables are either empty or of wrong type"
+            )
 
         self.input_params = input_params
-        plug_manager = initialize(self.input_params['census_household_sampling_procedure'])
+        plug_manager = initialize(
+            self.input_params["census_household_sampling_procedure"]
+        )
 
         self.global_tables = global_tables
         self.pums_data_tables = pums_data_tables

@@ -32,7 +32,9 @@ class TestRandomRoundToInteger:
 class TestFileCache:
     def test_file_cache(self):
         # test without a path
-        csvFileCache = util.CSVFileCache(location_=os.path.join(os.getcwd(), "cache_test"))
+        csvFileCache = util.CSVFileCache(
+            location_=os.path.join(os.getcwd(), "cache_test")
+        )
         assert csvFileCache.get_location() == os.path.join(os.getcwd(), "cache_test")
 
         assert csvFileCache.flush()

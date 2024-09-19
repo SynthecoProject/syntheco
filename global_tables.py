@@ -5,6 +5,7 @@ This class that holds the standard tables that are needed across
 the synthetic ecosystem generation process.
 
 """
+
 import pandas as pd
 
 
@@ -15,6 +16,7 @@ class GlobalTables:
     This is a class to hold the standard tables needed for various aspects
     of the Syntheco ecosystem generation system.
     """
+
     def __init__(self, geo_unit_=None, converter_=None):
         """
         Creation operator
@@ -27,8 +29,9 @@ class GlobalTables:
         """
         This method returns a nice print out of the GlobalTables
         """
-        return_str = "\n".join(["Global Tables",
-                                "------------------------------------------------------"])
+        return_str = "\n".join(
+            ["Global Tables", "------------------------------------------------------"]
+        )
         for x in self.data.values():
             if isinstance(x, pd.DataFrame):
                 return_str += f"{x.name}\n{x}\n"

@@ -15,6 +15,7 @@ class CensusHouseholdSamplingSpec:
 
     wrapper class that defines the implmentation hooks for Plugins
     """
+
     @hookspec
     def sample_households(house_samp_inst):
         """

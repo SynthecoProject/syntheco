@@ -31,7 +31,7 @@ class CSVOutputter:
             None as there is nothing to do
         """
 
-        return {'preprocessed_output': None}
+        return {"preprocessed_output": None}
 
     @hookimpl
     def output(out_format_inst):
@@ -42,13 +42,20 @@ class CSVOutputter:
             out_households = f"{ip['output_prefix']}.households.csv"
             out_people = f"{ip['output_prefix']}.people.csv"
 
-            out_format_inst.sampling_result.data['Household Geographic Assignments'].to_csv(out_house_coords,
-                                                                                            index=False)
-            if isinstance(out_format_inst.fitting_result.data['Derived PUMS'], dict):
-                out_format_inst.fitting_result.data['Derived PUMS']['Person'].to_csv(out_people, index=False)
-                out_format_inst.fitting_result.data['Derived PUMS']['Household'].to_csv(out_households, index=False)
+            out_format_inst.sampling_result.data[
+                "Household Geographic Assignments"
+            ].to_csv(out_house_coords, index=False)
+            if isinstance(out_format_inst.fitting_result.data["Derived PUMS"], dict):
+                out_format_inst.fitting_result.data["Derived PUMS"]["Person"].to_csv(
+                    out_people, index=False
+                )
+                out_format_inst.fitting_result.data["Derived PUMS"]["Household"].to_csv(
+                    out_households, index=False
+                )
             else:
-                out_format_inst.fitting_result.data['Derived PUMS'].to_csv(out_people, index=False)
+                out_format_inst.fitting_result.data["Derived PUMS"].to_csv(
+                    out_people, index=False
+                )
             log("INFO", "Successfully wrote CSVs")
 
             return True

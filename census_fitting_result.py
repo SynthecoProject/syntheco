@@ -4,7 +4,6 @@ census_fitting_result
 This class is for the results of a census fitting procedure
 """
 
-
 import pandas as pd
 from census_fitting_procedures.census_fitting_procedure import CensusFittingProcedure
 from error import SynthEcoError
@@ -12,8 +11,7 @@ from logger import log, data_log
 
 
 class CensusFittingResult:
-    def __init__(self, converter_=None,
-                 data_=None):
+    def __init__(self, converter_=None, data_=None):
         """
         Creation operator
 
@@ -25,8 +23,10 @@ class CensusFittingResult:
         """
 
         if not isinstance(converter_, CensusFittingProcedure):
-            raise SynthEcoError("Trying to initialize CensusFittingResult with " +
-                                "plugin on the wrong type {}".format(type(converter_)))
+            raise SynthEcoError(
+                "Trying to initialize CensusFittingResult with "
+                + "plugin on the wrong type {}".format(type(converter_))
+            )
 
         self.converter = converter_
 
@@ -40,6 +40,10 @@ class CensusFittingResult:
         This method returns a nice print out of CensusFittingResult
         """
 
-        return '\n'.join(["Census Fitting Result",
-                         "------------------------------------------------------"] +
-                         ["{}:\n{}".format(x, self.data[x]) for x in list(self.data)[0:10]])
+        return "\n".join(
+            [
+                "Census Fitting Result",
+                "------------------------------------------------------",
+            ]
+            + ["{}:\n{}".format(x, self.data[x]) for x in list(self.data)[0:10]]
+        )

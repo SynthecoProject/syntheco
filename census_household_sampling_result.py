@@ -19,8 +19,7 @@ class CensusHouseholdSamplingResult:
     the population
     """
 
-    def __init__(self, sampling_proc_=None,
-                 data_=None):
+    def __init__(self, sampling_proc_=None, data_=None):
         """
         Constructor
 
@@ -32,8 +31,10 @@ class CensusHouseholdSamplingResult:
         """
 
         if not isinstance(sampling_proc_, CensusHouseholdSampling):
-            raise SynthEcoError("Trying to initilize CensusHousholdSamplingResult with " +
-                                "plugin of the wrong type {}".format(type(sampling_proc_)))
+            raise SynthEcoError(
+                "Trying to initilize CensusHousholdSamplingResult with "
+                + "plugin of the wrong type {}".format(type(sampling_proc_))
+            )
 
         self.sampling_proc = sampling_proc_
 
@@ -47,6 +48,10 @@ class CensusHouseholdSamplingResult:
         This method returns a nice print out of the CensusHouseholdSamplingResult
         """
 
-        return '\n'.join(["Census Houshold Sampling Result",
-                          "------------------------------------------------------",
-                          "{}".format(self.data['Household Geographic Assignments'])])
+        return "\n".join(
+            [
+                "Census Houshold Sampling Result",
+                "------------------------------------------------------",
+                "{}".format(self.data["Household Geographic Assignments"]),
+            ]
+        )

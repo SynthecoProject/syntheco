@@ -319,7 +319,7 @@ class TestUSCensusPlugins:
         output: dict = transform_func(cens_conv_inst)
 
         assert output.keys() == expected_output.keys()
-        for (data, expected_data) in zip(output.values(), expected_output.values()):
+        for data, expected_data in zip(output.values(), expected_output.values()):
             print(data)
             print(expected_data)
             assert type(data) == type(expected_data)

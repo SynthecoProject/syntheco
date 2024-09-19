@@ -13,6 +13,7 @@ class BorderTables:
 
     Class to hold the geographic data for sampling and mapping
     """
+
     def __init__(self, geo_unit_=None, converter_=None):
         """
         Creation Operator
@@ -25,6 +26,6 @@ class BorderTables:
         """
         This method returns a nice print out of the Border Table
         """
-        return "\n".join(["Border Tables",
-                          "".join(["_" for x in range(80)]),
-                          f"{self.data}"])
+        return "\n".join(
+            ["Border Tables", "".join(["_" for x in range(80)]), f"{self.data}"]
+        )
