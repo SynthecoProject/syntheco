@@ -5,8 +5,8 @@ import csv
 import pandas as pd
 import shutil
 
-from error import SynthEcoError
-import util
+from syntheco.error import SynthEcoError
+from syntheco import util
 
 
 class TestRandomRoundToInteger:

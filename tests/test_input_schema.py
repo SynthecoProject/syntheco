@@ -1,6 +1,6 @@
 import pytest
 
-import input_schema
+from syntheco import input_schema
 
 
 @pytest.fixture

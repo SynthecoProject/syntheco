@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc 
+*.pyo
 
 # C extensions
 *.so
@@ -130,3 +132,4 @@ dmypy.json
 
 # requests-cache directory
 api-response-cache/
+

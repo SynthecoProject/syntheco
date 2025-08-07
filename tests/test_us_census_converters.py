@@ -7,7 +7,7 @@ import json
 from collections import namedtuple
 from typing import Callable
 
-import census_converters.plugins.us_census_converters as us
+import syntheco.census_converters.plugins.us_census_converters as us
 
 
 class TestAPIManager:
@@ -133,7 +133,7 @@ class TestUSCensusPlugins:
         mock_census_converter = MagicMock()
         mock_census_converter.input_params = ip
 
-        with open("census_converters/plugins/us_pums_info.json") as meta:
+        with open("src/syntheco/census_converters/plugins/us_pums_info.json") as meta:
             mock_census_converter.metadata_json = json.load(meta)
 
         return mock_census_converter
@@ -154,11 +154,11 @@ class TestUSCensusPlugins:
         expected_output: pd.DataFrame = format_df_meta.return_value
 
         api_call_patch = (
-            "census_converters.plugins.us_census_converters.api_manager.api_call",
+            "syntheco.census_converters.plugins.us_census_converters.api_manager.api_call",
             mock_api_call,
         )
         format_df_patch = (
-            "census_converters.plugins.us_census_converters._format_df",
+            "syntheco.census_converters.plugins.us_census_converters._format_df",
             mock_format_df,
         )
         with patch(*api_call_patch), patch(*format_df_patch):
